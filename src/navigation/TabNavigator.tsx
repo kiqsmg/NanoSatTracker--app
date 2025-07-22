@@ -1,9 +1,15 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { HomeScreen, ProfileScreen, SettingsScreen } from '../screens';
+import { 
+  BatteryScreen, 
+  FloripaSat1Screen, 
+  HomeScreen, 
+  OverallScreen, 
+  ProfileScreen, 
+  SolarPanelsScreen 
+} from '../screens';
 import { TabParamList } from '../types';
-import { Colors } from '../constants';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -18,11 +24,20 @@ export const TabNavigator: React.FC = () => {
             case 'Home':
               iconName = focused ? 'home' : 'home-outline';
               break;
+            case 'FloripaSat1':
+              iconName = focused ? 'planet' : 'planet-outline';
+              break;
+            case 'Battery':
+              iconName = focused ? 'battery-full' : 'battery-full-outline';
+              break;
+            case 'SolarPanels':
+              iconName = focused ? 'sunny' : 'sunny-outline';
+              break;
+            case 'Overall':
+              iconName = focused ? 'earth' : 'earth-outline';
+              break;
             case 'Profile':
               iconName = focused ? 'person' : 'person-outline';
-              break;
-            case 'Settings':
-              iconName = focused ? 'settings' : 'settings-outline';
               break;
             default:
               iconName = 'help-outline';
@@ -30,31 +45,31 @@ export const TabNavigator: React.FC = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.text.secondary,
+        tabBarActiveTintColor: '#007AFF',
+        tabBarInactiveTintColor: '#666666',
         tabBarStyle: {
-          backgroundColor: Colors.surface,
-          borderTopColor: Colors.border,
+          backgroundColor: '#FFFFFF',
+          borderTopColor: '#E1E1E1',
           borderTopWidth: 1,
           paddingBottom: 8,
           paddingTop: 8,
-          height: 60,
+          height: 70,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: '500',
         },
         headerStyle: {
-          backgroundColor: Colors.surface,
-          borderBottomColor: Colors.border,
+          backgroundColor: '#FFFFFF',
+          borderBottomColor: '#E1E1E1',
           borderBottomWidth: 1,
         },
         headerTitleStyle: {
           fontSize: 18,
           fontWeight: '600',
-          color: Colors.text.primary,
+          color: '#000000',
         },
-        headerTintColor: Colors.primary,
+        headerTintColor: '#007AFF',
       })}
     >
       <Tab.Screen 
@@ -62,6 +77,39 @@ export const TabNavigator: React.FC = () => {
         component={HomeScreen}
         options={{
           headerTitle: 'NanoSat Tracker',
+          tabBarLabel: 'Home',
+        }}
+      />
+      <Tab.Screen 
+        name="FloripaSat1" 
+        component={FloripaSat1Screen}
+        options={{
+          headerTitle: 'FloripaSat-1',
+          tabBarLabel: 'Satellite',
+        }}
+      />
+      <Tab.Screen 
+        name="Battery" 
+        component={BatteryScreen}
+        options={{
+          headerTitle: 'Battery Data',
+          tabBarLabel: 'Battery',
+        }}
+      />
+      <Tab.Screen 
+        name="SolarPanels" 
+        component={SolarPanelsScreen}
+        options={{
+          headerTitle: 'Solar Panels',
+          tabBarLabel: 'Solar',
+        }}
+      />
+      <Tab.Screen 
+        name="Overall" 
+        component={OverallScreen}
+        options={{
+          headerTitle: 'Mission Data',
+          tabBarLabel: 'Overall',
         }}
       />
       <Tab.Screen 
@@ -69,13 +117,7 @@ export const TabNavigator: React.FC = () => {
         component={ProfileScreen}
         options={{
           headerTitle: 'Profile',
-        }}
-      />
-      <Tab.Screen 
-        name="Settings" 
-        component={SettingsScreen}
-        options={{
-          headerTitle: 'Settings',
+          tabBarLabel: 'Profile',
         }}
       />
     </Tab.Navigator>

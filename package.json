@@ -1,6 +1,7 @@
 {
   "name": "nanosattrackerapp",
   "version": "1.0.0",
+  "description": "FloripaSat-1 satellite tracking app with real-time telemetry data",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
@@ -9,22 +10,39 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.1.0",
     "@react-navigation/bottom-tabs": "^7.4.2",
     "@react-navigation/native": "^7.1.14",
     "@react-navigation/native-stack": "^7.3.21",
     "expo": "~53.0.20",
     "expo-router": "^5.1.4",
     "expo-status-bar": "~2.2.3",
+    "nativewind": "^4.1.23",
     "react": "19.0.0",
     "react-native": "0.79.5",
-    "@expo/vector-icons": "^14.1.0",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-gifted-charts": "^1.4.38",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-safe-area-context": "5.4.0"
+    "tailwindcss": "^3.4.0",
+    "expo-linear-gradient": "~14.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
     "typescript": "~5.8.3"
   },
+  "keywords": [
+    "satellite",
+    "tracking",
+    "floripsat",
+    "cubesat",
+    "react-native",
+    "expo",
+    "typescript",
+    "spacelab",
+    "ufsc"
+  ],
+  "author": "SpaceLab UFSC",
   "private": true
 }
