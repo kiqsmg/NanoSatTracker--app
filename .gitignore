@@ -1,5 +1,12 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
+# Firebase Configuration (contains sensitive API keys)
+config/firebase.ts
+.firebase/
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+
 # dependencies
 node_modules/
 
