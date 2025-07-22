@@ -47,154 +47,162 @@ src/
 ├── components/          # Reusable UI components
 │   ├── Button.tsx      # Custom button component
 │   ├── Card.tsx        # Card container component
-│   ├── AnimatedBox.tsx # Animated box for ham radio data
-│   └── index.ts        # Component exports
-├── screens/            # Screen components (6 tabs)
-│   ├── HomeScreen.tsx  # Mission overview with satellite cards
-│   ├── FloripaSat1Screen.tsx # Satellite mission details
-│   ├── BatteryScreen.tsx # Battery telemetry charts
-│   ├── SolarPanelsScreen.tsx # Solar panel data charts
-│   ├── OverallScreen.tsx # Ham radio collaborators
-│   ├── ProfileScreen.tsx # User profile
-│   └── index.ts        # Screen exports
-├── navigation/         # Navigation setup
-│   ├── TabNavigator.tsx # 6-tab bottom navigation
-│   └── index.ts        # Navigation exports
-├── constants/          # App constants
-│   └── index.ts        # Colors, spacing, typography
+│   ├── AnimatedBox.tsx # Ham radio collaborators animation
+│   └── Layout.tsx      # Base layout component
+├── screens/             # App screens/pages
+│   ├── HomeScreen.tsx           # Welcome & satellite overview
+│   ├── BatteryScreen.tsx        # Battery telemetry charts
+│   ├── FloripaSat1Screen.tsx    # Mission & module details
+│   ├── SolarPanelsScreen.tsx    # Solar panel data charts
+│   ├── OverallScreen.tsx        # World map & collaborators
+│   └── ProfileScreen.tsx        # Team information
+├── navigation/          # Navigation configuration
+│   └── TabNavigator.tsx # Bottom tab navigation
 ├── types/              # TypeScript type definitions
-│   └── index.ts        # Type exports for navigation & data
-├── hooks/              # Custom React hooks
-│   ├── useTheme.ts     # Theme management hook
-│   └── index.ts        # Hook exports
-└── utils/              # Utility functions
-    ├── formatters.ts   # Data formatting utilities
-    └── index.ts        # Utility exports
+├── constants/          # App constants and themes
+├── hooks/             # Custom React hooks
+└── utils/             # Utility functions
 ```
 
-## 🎨 Features
+## 🛰️ Features
 
-### Current Features
+### Multi-Tab Navigation
+- **Home**: Mission overview and satellite cards
+- **FloripaSat-1**: Technical details and module information
+- **Battery**: Real-time battery telemetry charts
+- **Solar Panels**: Solar panel performance visualization
+- **Overall**: World map showing ham radio collaborators
+- **Profile**: Team and institutional information
 
-- **6-Tab Navigation**: Complete satellite tracking interface
-- **Real-time Data Charts**: Battery and solar panel telemetry visualization
-- **Mission Information**: Detailed FloripaSat-1 satellite specs and modules
-- **Ham Radio Network**: Global collaborator map and information
-- **TypeScript Support**: Type-safe development with proper interfaces
-- **Modern UI**: Clean interface with Tailwind CSS styling
-- **API Integration**: Live data from FloripaSat-1 backend
+### Real-Time Data
+- Live satellite telemetry from FloripaSat-1
+- Battery voltage, current, temperature, and charge levels
+- Solar panel current and voltage measurements
+- Interactive charts with month navigation
 
-### Tabs Overview
+### Educational Content
+- Detailed mission information
+- Technical specifications of satellite modules
+- Ham radio community involvement
+- SpaceLab UFSC research showcase
 
-1. **Home Tab**
-   - Mission overview and satellite constellation
-   - Links to SpaceLab GitHub
-   - Satellite cards with descriptions
+## 🎨 Design System
 
-2. **FloripaSat-1 Tab**
-   - Detailed mission information
-   - Module specifications (EPS, TT&C, OBDH)
-   - Educational content about the satellite
+### Layout Components
+- **Layout**: Base layout with SafeAreaView and optional ScrollView
+- **ChartLayout**: Specialized layout for data visualization screens
+- **ContentLayout**: Layout for informational content screens
 
-3. **Battery Tab**
-   - Real-time battery voltage charts (Cell 1 & 2)
-   - Battery charge and current monitoring
-   - Temperature tracking with interactive graphs
+### Color Scheme
+- **Primary**: Space-themed dark backgrounds
+- **Accent**: Blue tones for highlights and data
+- **Text**: High contrast for readability
 
-4. **Solar Panels Tab**
-   - 6 solar panel current monitoring
-   - Voltage tracking for panel pairs
-   - Multi-line charts with color coding
+### Typography
+- **Headings**: Bold, clear hierarchy
+- **Body**: Readable font sizes with proper line height
+- **Data**: Monospace for numerical values
 
-5. **Overall Tab**
-   - Global ham radio collaborator map
-   - Mission appreciation and community thanks
-   - Animated collaborator information box
+## 📊 Data Integration
 
-6. **Profile Tab**
-   - Simple user profile interface
-   - Ready for user authentication features
+### API Endpoints
+- **FloripaSat-1 Downlink**: `https://nanosattracker-backend.onrender.com/floripasat1/downlink`
 
-## 🛠️ Tech Stack
+### Data Types
+- Battery telemetry (voltage, current, temperature, charge)
+- Solar panel measurements (current, voltage per panel)
+- Timestamp information (day, month, year)
 
+### Chart Library
+- **react-native-gifted-charts**: Interactive line charts
+- Month navigation and data filtering
+- Multi-series data visualization
+
+## 🔧 Technical Stack
+
+### Core Technologies
 - **React Native**: Cross-platform mobile development
 - **Expo**: Development platform and tools
 - **TypeScript**: Type-safe JavaScript
-- **React Navigation**: 6-tab bottom navigation
-- **NativeWind**: Tailwind CSS for React Native
-- **React Native Gifted Charts**: Interactive data visualization
-- **Expo Vector Icons**: Icon library
-- **SafeAreaView**: Safe area handling
+- **React Navigation**: App navigation solution
 
-## 📊 Data Visualization
+### Dependencies
+```json
+{
+  "@react-navigation/bottom-tabs": "Tab navigation",
+  "@react-navigation/native": "Core navigation",
+  "react-native-gifted-charts": "Data visualization",
+  "react-native-safe-area-context": "Safe area handling",
+  "expo-linear-gradient": "Gradient backgrounds",
+  "@expo/vector-icons": "Icon library"
+}
+```
 
-The app displays real-time satellite telemetry including:
+### Development Tools
+- **Expo CLI**: Development server and build tools
+- **Metro**: JavaScript bundler for React Native
+- **ESLint**: Code linting and formatting
 
-- **Battery Data**: Cell voltages, charge levels, current, and temperature
-- **Solar Panel Data**: Individual panel currents and grouped voltages
-- **Interactive Charts**: Scrollable, animated line charts with month navigation
-- **Live API**: Data fetched from `nanosattracker-backend.onrender.com`
+## 🏛️ Educational Context
 
-## 🎯 API Integration
+### Academic Mission
+This app serves as a educational tool and research showcase for:
+- **SpaceLab UFSC**: Federal University of Santa Catarina research lab
+- **FloripaSat-1**: Brazil's first student-built CubeSat
+- **Space Technology**: Hands-on learning for engineering students
+- **Amateur Radio**: Community involvement in space missions
 
-The app connects to the FloripaSat-1 backend to fetch:
-- Battery telemetry data
-- Solar panel performance metrics
-- Historical data with date formatting
-- Real-time satellite status information
+### Learning Objectives
+- Real-world application of mobile development
+- Space systems and satellite technology understanding
+- Data visualization and user interface design
+- Collaborative development with research institutions
 
-## 🔧 Configuration
+## 🌟 Mission Impact
 
-### Tailwind CSS (NativeWind)
-The app uses NativeWind for styling with custom colors:
-- Primary: `#161622` (dark blue)
-- Secondary: `#FF9C01` (orange)
-- Blue variants for satellite theme
-- Custom font families (Poppins)
+### FloripaSat-1 Achievements
+- **First Brazilian student CubeSat** successfully deployed
+- **Amateur radio repeater** for emergency communications
+- **International collaboration** with ham radio operators
+- **Technology demonstration** for future missions
 
-### Chart Configuration
-- Interactive month selection buttons
-- Scrollable chart views with references
-- Multiple data series support
-- Animated chart rendering
-
-## 🌍 Ham Radio Integration
-
-Special thanks to the global ham radio community that supports the FloripaSat-1 mission by:
-- Receiving satellite telemetry
-- Relaying communication signals
-- Supporting emergency communications
-- Contributing to space education
-
-## 🚀 Next Steps
-
-### Planned Features
-- [ ] Real-time satellite pass predictions
-- [ ] Ground station tracking
-- [ ] Push notifications for satellite passes
-- [ ] User authentication and personal tracking
-- [ ] Offline data caching
-- [ ] Additional satellite missions
-- [ ] 3D satellite visualization
-- [ ] Historical data analysis
-
-### Technical Improvements
-- [ ] Error boundary implementation
-- [ ] Loading state optimizations
-- [ ] Chart performance optimization
-- [ ] Automated testing
-- [ ] CI/CD pipeline
-- [ ] App store deployment
+### Educational Outcomes
+- **Student engagement** in space technology
+- **Public outreach** for STEM education
+- **Open source contribution** to satellite tracking
+- **Community building** around space exploration
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly on multiple devices
-5. Submit a pull request
+We welcome contributions from:
+- **Students and researchers** interested in space technology
+- **Mobile developers** wanting to contribute to education
+- **Amateur radio operators** with satellite experience
+- **UI/UX designers** passionate about space-themed interfaces
 
-## 🏫 Educational Context
+### How to Contribute
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🎯 Future Enhancements
+
+### Planned Features
+- **Real-time tracking**: Live satellite position on map
+- **Prediction algorithms**: Pass prediction for ham radio operators
+- **Data export**: CSV/JSON export for research
+- **Multi-language**: Portuguese and English support
+- **Offline mode**: Cached data for remote areas
+
+### Technical Improvements
+- **Performance optimization**: Chart rendering improvements
+- **Data caching**: Smart cache management
+- **Push notifications**: Satellite pass alerts
+- **Advanced analytics**: Historical data analysis
+
+## 🔗 Related Projects
 
 This app is developed in collaboration with:
 - **SpaceLab UFSC**: Federal University of Santa Catarina
@@ -214,4 +222,4 @@ For issues, questions, or contributions:
 
 ---
 
-Built with ❤️ for space education and FloripaSat-1 mission support 
+Built with ❤️ for space education and FloripaSat-1 mission support
