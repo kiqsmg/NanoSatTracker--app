@@ -18,12 +18,11 @@ export default function App() {
         <View style={styles.content}>
           {/* Logo Section */}
           <View style={styles.logoContainer}>
-            <View style={styles.logoWrapper}>
-              <Image 
-                source={require('../assets/images/logo.png')}
-                style={styles.logo}
-              />
-            </View>
+            <Image 
+              source={require('../assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
 
           {/* Title Section */}
@@ -101,8 +100,10 @@ const styles = StyleSheet.create({
     marginBottom: 28,
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: width * 0.6, // 60% of screen width
+    height: width * 0.6,
+    maxWidth: 250,
+    maxHeight: 250,
   },
   titleContainer: {
     alignItems: 'center',
