@@ -8,10 +8,25 @@ export default function Battery() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [formattedData, setFormattedData] = useState<{data: ChartDataPoint[]}[]>([]);
+  const [receivedData, setReceivedData] = useState<SatelliteData[]>([]);
 
   const ref1 = useRef<any>(null);
   const ref2 = useRef<any>(null);
   const ref3 = useRef<any>(null);
+
+  // Calculate month start positions in the data array
+  const getMonthStartIndex = (monthIndex: number, data: SatelliteData[]) => {
+    const targetMonth = monthIndex + 1; // Convert 0-based to 1-based month
+    const startIndex = data.findIndex(item => item.month === targetMonth);
+    return startIndex >= 0 ? startIndex : 0;
+  };
+
+  // Calculate scroll position based on data index
+  const calculateScrollPosition = (dataIndex: number, initialSpacing: number = 20) => {
+    // Approximate spacing between data points in the chart
+    const dataPointSpacing = 60; // Adjust this based on your chart's actual spacing
+    return initialSpacing + (dataIndex * dataPointSpacing) - 100; // -100 to center the view
+  };
 
   useEffect(() => {
     console.log("Fetching data...");
@@ -24,6 +39,9 @@ export default function Battery() {
         return res.json();
       })
       .then((received_Data: SatelliteData[]) => {
+        // Store the received data for month calculations
+        setReceivedData(received_Data);
+
         // Filtering the data
         const line_battery_cell_1_voltage = received_Data.map(item => ({
           value: item.battery_cell_1_voltage,
@@ -92,22 +110,37 @@ export default function Battery() {
   const lineData4 = formattedData[3]?.data || [];
   const lineData5 = formattedData[4]?.data || [];
 
-  const showOrHidePointer1 = (index: number) => {
-    ref1.current?.scrollTo({
-      x: index * 200 - 25,
-    });
-  };
-  
-  const showOrHidePointer2 = (index: number) => {
-    ref2.current?.scrollTo({
-      x: index * 200 - 25,
-    });
+  const showOrHidePointer1 = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref1.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
   };
 
-  const showOrHidePointer3 = (index: number) => {
-    ref3.current?.scrollTo({
-      x: index * 200 - 25,
-    });
+  const showOrHidePointer2 = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref2.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
+  };
+  
+  const showOrHidePointer3 = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref3.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
   };
 
   return (
@@ -137,11 +170,12 @@ export default function Battery() {
           yAxisOffset={-0.5}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>
@@ -168,11 +202,12 @@ export default function Battery() {
           yAxisOffset={-10}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>
@@ -196,11 +231,12 @@ export default function Battery() {
           yAxisOffset={-5}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>

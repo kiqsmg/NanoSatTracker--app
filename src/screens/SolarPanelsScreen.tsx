@@ -8,10 +8,25 @@ const SolarPanelsScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [formattedData, setFormattedData] = useState<{data: ChartDataPoint[]}[]>([]);
+  const [receivedData, setReceivedData] = useState<SatelliteData[]>([]);
 
   const ref1 = useRef<any>(null);
   const ref1b = useRef<any>(null);
   const ref2 = useRef<any>(null);
+
+  // Calculate month start positions in the data array
+  const getMonthStartIndex = (monthIndex: number, data: SatelliteData[]) => {
+    const targetMonth = monthIndex + 1; // Convert 0-based to 1-based month
+    const startIndex = data.findIndex(item => item.month === targetMonth);
+    return startIndex >= 0 ? startIndex : 0;
+  };
+
+  // Calculate scroll position based on data index
+  const calculateScrollPosition = (dataIndex: number, initialSpacing: number = 20) => {
+    // Approximate spacing between data points in the chart
+    const dataPointSpacing = 60; // Adjust this based on your chart's actual spacing
+    return initialSpacing + (dataIndex * dataPointSpacing) - 100; // -100 to center the view
+  };
 
   useEffect(() => {
     console.log("Fetching data...");
@@ -24,6 +39,9 @@ const SolarPanelsScreen = () => {
         return res.json();
       })
       .then((received_Data: SatelliteData[]) => {
+        // Store the received data for month calculations
+        setReceivedData(received_Data);
+
         // Filtering the data
         const line_sp_01_current = received_Data.map(item => ({
           value: item.sp_01_current,
@@ -120,22 +138,37 @@ const SolarPanelsScreen = () => {
   const lineData8 = formattedData[7]?.data || [];
   const lineData9 = formattedData[8]?.data || [];
 
-  const showOrHidePointer1 = (index: number) => {
-    ref1.current?.scrollTo({
-      x: index * 200 - 25,
-    });
+  const showOrHidePointer1 = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref1.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
   };
 
-  const showOrHidePointer1b = (index: number) => {
-    ref1b.current?.scrollTo({
-      x: index * 200 - 25,
-    });
+  const showOrHidePointer1b = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref1b.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
   };
   
-  const showOrHidePointer2 = (index: number) => {
-    ref2.current?.scrollTo({
-      x: index * 200 - 25,
-    });
+  const showOrHidePointer2 = (monthIndex: number) => {
+    if (receivedData.length > 0) {
+      const dataIndex = getMonthStartIndex(monthIndex, receivedData);
+      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      ref2.current?.scrollTo({
+        x: Math.max(0, scrollPosition),
+        animated: true,
+      });
+    }
   };
 
   return (
@@ -168,11 +201,12 @@ const SolarPanelsScreen = () => {
           yAxisOffset={-0.05}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>
@@ -202,11 +236,12 @@ const SolarPanelsScreen = () => {
           yAxisOffset={-0.05}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>
@@ -236,11 +271,12 @@ const SolarPanelsScreen = () => {
           yAxisOffset={-0.5}
           rotateLabel
           noOfSections={6}
-          xAxisLabelsVerticalShift={20}
+          xAxisLabelsVerticalShift={35}
           xAxisLabelTextStyle={{
-            alignSelf: 'flex-end',
-            marginRight: -35,
-            marginTop: -25,
+            color: '#333333',
+            fontSize: 11,
+            fontWeight: '500',
+            textAlign: 'center',
           }}
         />
       </ChartSection>

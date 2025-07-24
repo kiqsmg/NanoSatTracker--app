@@ -21,7 +21,7 @@ export const ChartSection: React.FC<ChartSectionProps> = ({
   onMonthPress,
   children,
 }) => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
     <View style={styles.section}>
@@ -116,9 +116,11 @@ const styles = StyleSheet.create({
   chartContainer: {
     backgroundColor: '#ffffff',
     borderRadius: 12,
-    padding: 12,
+    padding: 16,
+    paddingBottom: 60, // Increased bottom padding for x-axis labels
     marginHorizontal: 4,
     marginTop: 8,
+    minHeight: 320, // Minimum height to ensure enough space
     // Shadow for iOS
     shadowColor: '#000',
     shadowOffset: {
