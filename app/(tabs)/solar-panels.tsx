@@ -18,14 +18,21 @@ export default function SolarPanels() {
   const getMonthStartIndex = (monthIndex: number, data: SatelliteData[]) => {
     const targetMonth = monthIndex + 1; // Convert 0-based to 1-based month
     const startIndex = data.findIndex(item => item.month === targetMonth);
+    console.log(`Month ${targetMonth} starts at index: ${startIndex} out of ${data.length} total points`);
     return startIndex >= 0 ? startIndex : 0;
   };
 
-  // Calculate scroll position based on data index
-  const calculateScrollPosition = (dataIndex: number, initialSpacing: number = 20) => {
-    // Approximate spacing between data points in the chart
-    const dataPointSpacing = 60; // Adjust this based on your chart's actual spacing
-    return initialSpacing + (dataIndex * dataPointSpacing) - 100; // -100 to center the view
+  // Calculate scroll position based on data index - simplified approach
+  const calculateScrollPosition = (dataIndex: number, totalDataPoints: number) => {
+    // Use the same spacing as the chart's initialSpacing
+    const initialSpacing = 20;
+    const dataPointWidth = 50; // Approximate width per data point in the chart
+    
+    // Simple linear calculation
+    const scrollX = initialSpacing + (dataIndex * dataPointWidth);
+    
+    console.log(`Scrolling to month: dataIndex=${dataIndex}, scrollX=${scrollX}`);
+    return Math.max(0, scrollX);
   };
 
   useEffect(() => {
@@ -39,51 +46,58 @@ export default function SolarPanels() {
         return res.json();
       })
       .then((received_Data: SatelliteData[]) => {
-        // Store the received data for month calculations
-        setReceivedData(received_Data);
+        // Sort data by date to ensure proper month ordering
+        const sortedData = received_Data.sort((a, b) => {
+          const dateA = new Date(a.year, a.month - 1, a.day);
+          const dateB = new Date(b.year, b.month - 1, b.day);
+          return dateA.getTime() - dateB.getTime();
+        });
+        
+        // Store the sorted data for month calculations
+        setReceivedData(sortedData);
 
-        // Filtering the data
-        const line_sp_01_current = received_Data.map(item => ({
+        // Filtering the data (using sorted data)
+        const line_sp_01_current = sortedData.map(item => ({
           value: item.sp_01_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
   
-        const line_sp_02_current = received_Data.map(item => ({
+        const line_sp_02_current = sortedData.map(item => ({
           value: item.sp_02_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
   
-        const line_sp_03_current = received_Data.map(item => ({
+        const line_sp_03_current = sortedData.map(item => ({
           value: item.sp_03_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
   
-        const line_sp_04_current = received_Data.map(item => ({
+        const line_sp_04_current = sortedData.map(item => ({
           value: item.sp_04_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
   
-        const line_sp_05_current = received_Data.map(item => ({
+        const line_sp_05_current = sortedData.map(item => ({
           value: item.sp_05_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
   
-        const line_sp_06_current = received_Data.map(item => ({
+        const line_sp_06_current = sortedData.map(item => ({
           value: item.sp_06_current,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().slice(-2)}`
         }));
 
-        const line_sp_01_02_voltage = received_Data.map(item => ({
+        const line_sp_01_02_voltage = sortedData.map(item => ({
           value: item.sp_01_02_voltage,
           label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().padStart(2, '0')}`
         }));
         
-        const line_sp_03_04_voltage = received_Data.map(item => ({
+        const line_sp_03_04_voltage = sortedData.map(item => ({
             value: item.sp_03_04_voltage,
             label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().padStart(2, '0')}`
         }));
         
-        const line_sp_05_06_voltage = received_Data.map(item => ({
+        const line_sp_05_06_voltage = sortedData.map(item => ({
             value: item.sp_05_06_voltage,
             label: `${item.day.toString().padStart(2, '0')}-${item.month.toString().padStart(2, '0')}-${item.year.toString().padStart(2, '0')}`
         }));
@@ -141,7 +155,7 @@ export default function SolarPanels() {
   const showOrHidePointer1 = (monthIndex: number) => {
     if (receivedData.length > 0) {
       const dataIndex = getMonthStartIndex(monthIndex, receivedData);
-      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      const scrollPosition = calculateScrollPosition(dataIndex, receivedData.length);
       ref1.current?.scrollTo({
         x: Math.max(0, scrollPosition),
         animated: true,
@@ -152,7 +166,7 @@ export default function SolarPanels() {
   const showOrHidePointer1b = (monthIndex: number) => {
     if (receivedData.length > 0) {
       const dataIndex = getMonthStartIndex(monthIndex, receivedData);
-      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      const scrollPosition = calculateScrollPosition(dataIndex, receivedData.length);
       ref1b.current?.scrollTo({
         x: Math.max(0, scrollPosition),
         animated: true,
@@ -163,7 +177,7 @@ export default function SolarPanels() {
   const showOrHidePointer2 = (monthIndex: number) => {
     if (receivedData.length > 0) {
       const dataIndex = getMonthStartIndex(monthIndex, receivedData);
-      const scrollPosition = calculateScrollPosition(dataIndex, 20);
+      const scrollPosition = calculateScrollPosition(dataIndex, receivedData.length);
       ref2.current?.scrollTo({
         x: Math.max(0, scrollPosition),
         animated: true,
