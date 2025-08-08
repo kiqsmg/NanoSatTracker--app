@@ -92,12 +92,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 32,
-    paddingVertical: 40,
+    paddingVertical: 20,
     minHeight: height,
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 28,
+    marginTop: -150,
+    marginBottom: 0,
   },
   logo: {
     width: width * 0.6, // 60% of screen width
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 24, // Reduced from 40 to 24
   },
   title: {
     fontSize: 36,
